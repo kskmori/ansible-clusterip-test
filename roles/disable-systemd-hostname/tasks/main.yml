@@ -1,0 +1,17 @@
+- name: start hostname service
+  service:
+    name="hostname.socket"
+    state=stopped
+
+- name: systemd daemon-reload
+  command: systemctl daemon-reload
+  changed_when: False
+
+
+- name: hostname systemd unit files
+  file:
+    name: "/etc/systemd/system/{{ item }}"
+    state: absent
+  with_items:
+    - hostname.socket
+    - hostname@.service

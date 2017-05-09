@@ -1,0 +1,14 @@
+[Unit]
+Description=Hostname
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c "echo $(hostname)"
+## not work; no output
+#ExecStart=/bin/sh -c "hostname"
+## not work; permission error
+#ExecStart=/usr/bin/hostname
+StandardInput=socket
+StandardOutput=socket
+
+

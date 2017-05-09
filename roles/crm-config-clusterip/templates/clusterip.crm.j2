@@ -1,0 +1,12 @@
+property \
+	stonith-enabled=false \
+	no-quorum-policy=ignore
+rsc_defaults rsc-options: \
+	migration-threshold=1
+primitive VIP IPaddr2 \
+	params ip="{{ VIP['ip'] }}" nic="{{ VIP['nic'] }}" cidr_netmask="{{ VIP['cidr_netmask'] }}" \
+	op start timeout=60s on-fail=restart interval=0 \
+	op monitor interval=10s timeout=60s on-fail=restart \
+	op stop timeout=60s on-fail=block interval=0
+clone cVIP VIP \
+	meta clone-max=2 clone-node-max=2 globally-unique=true

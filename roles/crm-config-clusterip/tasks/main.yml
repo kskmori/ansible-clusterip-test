@@ -1,0 +1,18 @@
+- name: start pacemaker service
+  service:
+    name="pacemaker"
+    state=started
+
+- name: wait for startup pacemaker cluster
+  command: crm cluster wait_for_startup
+
+- name: copy configuration file (1 node only)
+  template:
+    src=clusterip.crm.j2
+    dest=/root/clusterip.crm
+  when: inventory_hostname == ansible_play_hosts[0]
+
+# it would be preferable to load after both nodes get to online
+- name: load the crm configuration (1 node only)
+  command: crm configure load replace /root/clusterip.crm
+  when: inventory_hostname == ansible_play_hosts[0]

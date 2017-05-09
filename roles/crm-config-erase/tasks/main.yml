@@ -1,0 +1,12 @@
+### this role removes the pacemaker internal files; use with care!
+- name: stop pacemaker service first
+  service:
+    name="pacemaker"
+    state=stopped
+
+- name: remove all cib files
+  shell: rm -rf /var/lib/pacemaker/cib/*
+
+- name: remove all pe- graph files
+  shell: rm -rf /var/lib/pacemaker/pengine/*
+

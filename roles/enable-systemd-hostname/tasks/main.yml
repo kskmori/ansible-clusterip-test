@@ -1,0 +1,23 @@
+- name: hostname systemd unit files
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/systemd/system/{{ item }}"
+  with_items:
+    - hostname.socket
+    - hostname@.service
+
+- name: systemd daemon-reload
+  command: systemctl daemon-reload
+  changed_when: False
+
+- name: start hostname service
+  service:
+    name="hostname.socket"
+    state=started
+
+### systemd module is not available in 2.1 yet
+#- name: start hostname service
+#  systemd:
+#    daemon_reload=yes
+#    name="hostname.socket"
+#    state=started

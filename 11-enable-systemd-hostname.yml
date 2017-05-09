@@ -1,0 +1,7 @@
+- hosts: hacluster
+  user: root
+  max_fail_percentage: 0
+
+  roles:
+    - { role: enable-systemd-hostname }
+

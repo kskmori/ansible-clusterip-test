@@ -1,0 +1,17 @@
+- hosts: hacluster
+  user: root
+  max_fail_percentage: 0
+
+
+  vars_prompt:
+    - name: "erase_crm"
+      prompt: |-
+        Create CRM configuration for testing Cluster IP 
+        Your current CRM configuration will be LOST!
+        continue ?
+      private: no
+      default: "y"
+
+  roles:
+    - { role: crm-config-erase,      when: erase_crm == "y" }
+    - { role: crm-config-clusterip,  when: erase_crm == "y" }
