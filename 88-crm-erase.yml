@@ -1,0 +1,15 @@
+- hosts: hacluster
+  user: root
+  max_fail_percentage: 0
+
+
+  vars_prompt:
+    - name: "erase_crm"
+      prompt: |-
+        Your current CRM configuration will be LOST!
+        continue ?
+      private: no
+      default: "y"
+
+  roles:
+    - { role: crm-config-erase,      when: erase_crm == "y" }
